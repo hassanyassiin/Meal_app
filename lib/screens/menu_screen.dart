@@ -22,16 +22,17 @@ class Menu extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(routeTitle.toString()),
+        title: Text(routeTitle.toString(),style: Theme.of(context).textTheme.subtitle1,),
       ),
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           return MealItem(
-              title: categoryMeals[index].title,
-              image: categoryMeals[index].imageUrl,
-              duration: categoryMeals[index].duration,
-              complexity: categoryMeals[index].complexity,
-              afford: categoryMeals[index].affordable,
+            id: categoryMeals[index].id,
+            title: categoryMeals[index].title,
+            image: categoryMeals[index].imageUrl,
+            duration: categoryMeals[index].duration,
+            complexity: categoryMeals[index].complexity,
+            afford: categoryMeals[index].affordable,
           );
         },
         itemCount: categoryMeals.length,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/menu.dart';
+import '../screens/menu_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -11,9 +11,8 @@ class CategoryItem extends StatelessWidget {
 
   void selectCategory(BuildContext ctx) {
     Navigator.of(ctx)
-        .pushNamed( Menu.routeName, arguments: {'id': id, 'title': title});
+        .pushNamed(Menu.routeName, arguments: {'id': id, 'title': title});
   }
-
 
   @override
   Widget build(BuildContext context) {
