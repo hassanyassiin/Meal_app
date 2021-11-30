@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'screens/categories_screen.dart';
 import 'screens/menu_screen.dart';
 import 'screens/meal_detailed_screen.dart';
+import './screens/tabs_screen.dart';
+import './screens/filters_screen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,9 +43,11 @@ class MyApp extends StatelessWidget {
       ),
       //  home: CategoriesScreen(),
       routes: {
-        '/': (ctx) => CategoriesScreen(),
+        '/': (ctx) => TabsScreen(),
         Menu.routeName: (ctx) => Menu(),
         MealDetailedScreen.routeName: (ctx) => MealDetailedScreen(),
+        Filters.routeName: (ctx) => Filters(),
+        // TabsScreen.routeName: (ctx) => TabsScreen(),
       },
       // onGenerateRoute: (settings){
       //   print(settings.arguments);

@@ -10,20 +10,31 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability afford;
+  final Function removeItem;
 
-  MealItem(
-      {required this.id,
-      required this.image,
-      required this.title,
-      required this.duration,
-      required this.complexity,
-      required this.afford});
+  MealItem({
+    required this.id,
+    required this.image,
+    required this.title,
+    required this.duration,
+    required this.complexity,
+    required this.afford,
+    required this.removeItem,
+  });
 
   void selectedMeal(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(
+    Navigator.of(ctx)
+        .pushNamed(
       MealDetailedScreen.routeName,
       arguments: id,
-    );
+    )
+        .then((value) {
+          if(value!=null)
+            {
+              removeItem(value);
+            }
+
+    });
   }
 
   String get complexityText {
@@ -71,7 +82,7 @@ class MealItem extends StatelessWidget {
   //     default:
   //       return 'unKnown';
   //   }
-  // }
+  // }??????????????????????????????????????????????????????????????????????? why
 
   @override
   Widget build(BuildContext context) {

@@ -1,41 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/widgets/meal_item.dart';
+import '../widgets/meal_item.dart';
 
 import '../models/dummy_data_m.dart';
+import '../models/meal.dart';
 
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
   static const routeName = '/category-meals';
-  // final String categoryId;
-  // final String categoryTitle;
-  //
-  // CategoryMealsScreen({required this.categoryId,required this.categoryTitle});
+
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  String? categoryTitle; // how to avoid ???
+  late List<Meal> displayedMeals;
+  var _loadedInitData = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedInitData) {
+      final routeArgs =
+          ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+      final routeId = routeArgs['id'];
+      categoryTitle = routeArgs['title'];
+      displayedMeals = DUMMY_MEALS.where((meal) {
+        return meal.categories.contains(routeId);
+      }).toList();
+    }
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String mealId) {
+    setState(() {
+      displayedMeals.removeWhere((element) {
+        return element.id == mealId;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final routeId = routeArgs['id'];
-    final routeTitle = routeArgs['title'];
-    final categoryMeals = DUMMY_MEALS.where((meal) {
-      return meal.categories.contains(routeId);
-    }).toList();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(routeTitle.toString(),style: Theme.of(context).textTheme.subtitle1,),
+        title: Text(
+          categoryTitle.toString(),
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
       ),
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           return MealItem(
-            id: categoryMeals[index].id,
-            title: categoryMeals[index].title,
-            image: categoryMeals[index].imageUrl,
-            duration: categoryMeals[index].duration,
-            complexity: categoryMeals[index].complexity,
-            afford: categoryMeals[index].affordable,
+            id: displayedMeals[index].id,
+            title: displayedMeals[index].title,
+            image: displayedMeals[index].imageUrl,
+            duration: displayedMeals[index].duration,
+            complexity: displayedMeals[index].complexity,
+            afford: displayedMeals[index].affordable,
+            removeItem: _removeMeal,
           );
         },
-        itemCount: categoryMeals.length,
+        itemCount: displayedMeals.length,
       ),
     );
   }
